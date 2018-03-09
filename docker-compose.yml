@@ -1,0 +1,42 @@
+version: '3'
+
+services:  
+  api:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    # command: 'true'
+    # depends_on:
+    #   - mysql
+    #   - redis
+    # container_name: api.local
+
+  # mysql:
+  #   # uses mysql:5.6
+  #   build: ./docker/mysql
+  #   ports:
+  #     - 3380:3306
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root
+  #   container_name: iron.mysql.blogfoster.local
+
+  # redis:
+  #   image: redis:2.8
+  #   ports:
+  #     - 6380:6379
+  #   container_name: iron.redis.blogfoster.local
+
+# volumes:  
+#   mysql-data:
+
+# networks:  
+#   default:
+#     external:
+#       name: blogfoster
