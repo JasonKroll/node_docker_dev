@@ -22,17 +22,21 @@ npm manifest:
     "scripts": {
       "d:build": "docker-compose build",
       "d:login": "docker-compose run --rm --service-ports api /bin/sh",
-      "start": "nodemon src/index.js",
+      "start": "nodemon -L src src/index.js",
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+      "bluebird": "^3.5.1",
       "body-parser": "^1.18.2",
       "cors": "^2.8.4",
+      "dotenv-safe": "^5.0.1",
       "express": "^4.16.2",
       "helmet": "^3.12.0",
-      "mongoose": "^5.0.9",
+      "http-status": "^1.0.1",
+      "lodash": "^4.17.5",
+      "mongoose": "^5.0.10",
       "morgan": "^1.9.0",
       "nodemon": "^1.17.1"
     }
@@ -205,6 +209,10 @@ Lockfile:
   bluebird@3.5.0:
     version "3.5.0"
     resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.0.tgz#791420d7f551eea2897453a8a77653f96606d67c"
+  
+  bluebird@^3.5.1:
+    version "3.5.1"
+    resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
   
   body-parser@1.18.2, body-parser@^1.18.2:
     version "1.18.2"
@@ -539,6 +547,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-4.2.0.tgz#1f19e0c2e1aa0e32797c49799f2837ac6af69c57"
     dependencies:
       is-obj "^1.0.0"
+  
+  dotenv-safe@^5.0.1:
+    version "5.0.1"
+    resolved "https://registry.yarnpkg.com/dotenv-safe/-/dotenv-safe-5.0.1.tgz#8c4a79b8978fd4271b3d8ef17be2b2f04588af71"
+    dependencies:
+      dotenv "^5.0.0"
+  
+  dotenv@^5.0.0:
+    version "5.0.1"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
   
   duplexer3@^0.1.4:
     version "0.1.4"
@@ -960,6 +978,10 @@ Lockfile:
       jsprim "^1.2.2"
       sshpk "^1.7.0"
   
+  http-status@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/http-status/-/http-status-1.0.1.tgz#dc43001a8bfc50ac87d485a892f7578964bc94a2"
+  
   iconv-lite@0.4.19:
     version "0.4.19"
     resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
@@ -1245,7 +1267,7 @@ Lockfile:
     version "4.6.0"
     resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
   
-  lodash@^4.14.0:
+  lodash@^4.14.0, lodash@^4.17.5:
     version "4.17.5"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
   
@@ -1368,9 +1390,9 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   
-  mongoose@^5.0.9:
-    version "5.0.9"
-    resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.0.9.tgz#8eca121059d921f444d801534d0b94d2771b04dd"
+  mongoose@^5.0.10:
+    version "5.0.10"
+    resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.0.10.tgz#5945b4acc137b1c6acf546d64da1070bc4c4965a"
     dependencies:
       async "2.1.4"
       bson "~1.0.4"
@@ -2297,7 +2319,7 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 130
+  Exit code: 1
   Command: C:\WINDOWS\system32\cmd.exe
   Arguments: /d /s /c docker-compose run --rm --service-ports api /bin/sh
   Directory: C:\Users\jason.kroll\Documents\projects\node_docker_dev
