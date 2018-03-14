@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('./../config/vars');
 const bcrypt = require('bcryptjs');
-
 const roles = ['user', 'admin'];
 const safeParams = ['name', 'email', 'password', 'services', 'role', 'picture'];
 const returnFields = ['_id', 'name', 'email', 'role', 'services', 'picture', 'createdAt', 'updatedAt'];
@@ -19,8 +18,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true,
       minlength: 6,
-      maxlength: 128,
-      select: false
+      maxlength: 128
     },
     name: {
       type: String,
@@ -40,7 +38,7 @@ const userSchema = new mongoose.Schema({
     picture: {
       type: String,
       trim: true,
-    },
+    }
   }, {
     timestamps: true,
 });
@@ -70,6 +68,11 @@ userSchema.method({
 
     return transformed;
   },
+
+  async passwordMatches(password) {
+    console.log('user.password', this.password)
+    return bcrypt.compare(password, this.password);
+  }
 });
 
 userSchema.statics = {

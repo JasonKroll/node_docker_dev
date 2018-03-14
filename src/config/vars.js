@@ -12,9 +12,13 @@ module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
   jwtSecret: process.env.JWT_SECRET,
-  jwtExpirationInterval: process.env.JWT_EXPIRATION_MINUTES,
+  jwtExpirationMinutes: process.env.JWT_EXPIRATION_MINUTES,
   mongo: {
     uri: mongo_uri
+  },
+  keyService: {
+    port: process.env.KEY_SERVICE_PORT,
+    host: process.env.KEY_SERVICE_HOST
   },
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
 };
