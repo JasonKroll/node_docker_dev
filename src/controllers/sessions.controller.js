@@ -12,9 +12,24 @@ exports.get = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-  const id = req.params.sessionKey;
-  const token = `Token for this key ${id} deleted`;
-  res.json({message: token});
+  // const id = req.params.sessionKey;
+
+  const sessionKey = req.body.sessionKey;
+  if (!sessionKey) {
+    return res.status(400).send({error: 'sessionKey is a required parameter'});
+  }
+
+  KeyService.delete(sessionKey)
+    .then(function(result) {
+      if (!result) {
+        return res.status(404).send();
+      }
+      res.status(204).send();
+    })
+    .catch(function(error) {
+      console.log(error);
+      next(error);
+    });
 };
 
 exports.login = async (req, res, next) => {

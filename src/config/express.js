@@ -6,7 +6,7 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+// const cors = require('cors');
 
 const logs = config.logs;
 const error = require('./../middleware/error');
@@ -25,7 +25,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors());
+const cors = require('cors')({
+  origin: true,
+});
+app.use(cors);
 
 app.use('/v1', routesV1);
 
