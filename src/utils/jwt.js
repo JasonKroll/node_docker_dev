@@ -12,7 +12,7 @@ function JWT() {
 JWT.prototype.generate = function(user, deviceId, userKey, issuedAt,
                                   expiresAt) {
   if (!user._id || !user.email) {
-    throw new Error('user.id and user.username are required parameters');
+    throw new Error('user.id and user.email are required parameters');
   }
 
   var header = {

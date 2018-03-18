@@ -11,7 +11,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 // print mongoose logs in dev env
-if (env === 'development') {
+if (env === 'development' || env === 'test') {
   mongoose.set('debug', true);
 }
 

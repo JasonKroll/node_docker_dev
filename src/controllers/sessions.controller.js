@@ -43,7 +43,6 @@ exports.login = async (req, res, next) => {
   var user = User.findOne({email: params.email});
   
   var passwordMatch = user.then(function(userResult) {
-    console.log('password', params.password);
     if (isNull(userResult)) {
       return res.status(404).send({error: 'User does not exist'});
     }
@@ -65,7 +64,6 @@ exports.login = async (req, res, next) => {
         });
   })
     .catch(function(error) {
-      console.log(error);
       next(error);
     });  
 }

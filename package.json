@@ -6,8 +6,9 @@
   "scripts": {
     "d:build": "docker-compose build",
     "d:login": "docker-compose run --rm --service-ports api /bin/sh",
+    "d:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit",
     "start": "nodemon -L src src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/tests/**/*.test.js --exit"
   },
   "author": "",
   "license": "ISC",
@@ -16,17 +17,25 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
     "cors": "^2.8.4",
+    "cross-env": "^5.1.4",
     "dotenv-safe": "^5.0.1",
     "express": "^4.16.2",
     "helmet": "^3.12.0",
     "http-status": "^1.0.1",
     "jsrsasign": "^8.0.6",
     "lodash": "^4.17.5",
+    "mocha": "^5.0.4",
     "mongoose": "^5.0.10",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.1",
     "redis": "^2.8.0",
+    "sinon": "^4.4.6",
+    "supertest": "^3.0.0",
     "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "nyc": "^11.6.0"
   }
 }

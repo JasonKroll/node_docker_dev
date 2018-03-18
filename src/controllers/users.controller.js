@@ -13,7 +13,6 @@ exports.get = async (req, res, next) => {
 exports.create = async (req, res, next) => {
     const body = pick(req.body, User.safeParams);
     const user = new User(body);
-    
     const savedUser = await user.save();
     res.status(httpStatus.CREATED);
     res.json(savedUser.transform());

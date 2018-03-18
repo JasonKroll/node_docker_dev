@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const config = require('./../config/vars');
 const bcrypt = require('bcryptjs');
+const httpStatus = require('http-status');
 const roles = ['user', 'admin'];
 const safeParams = ['name', 'email', 'password', 'services', 'role', 'picture'];
 const returnFields = ['_id', 'name', 'email', 'role', 'services', 'picture', 'createdAt', 'updatedAt'];
+const messages = require('./../utils/messages');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -70,10 +72,36 @@ userSchema.method({
   },
 
   async passwordMatches(password) {
-    console.log('user.password', this.password)
     return bcrypt.compare(password, this.password);
   }
 });
+
+var handleE11000 = function(error, res, next) {
+  const errKeys = Object.keys(error);
+  
+  if (error.name === 'ValidationError') {
+    const newErr = new Error('')
+    const errKeys = Object.keys(error.errors)
+    errKeys.map((e) => {
+      newErr.message += `${messages.invalidData(e, error.errors[e].value)}, `
+    })
+    newErr.message = newErr.message.slice(0, newErr.message.lastIndexOf(', '))
+    newErr.status = httpStatus.BAD_REQUEST;
+    next(newErr);
+  } else if (error.code === 11000) {
+    const newErr = new Error(messages.userExists)
+    newErr.status = httpStatus.CONFLICT;
+    next(newErr);
+  } else {
+    next();
+  }
+};
+
+userSchema.post('save', handleE11000);
+userSchema.post('update', handleE11000);
+userSchema.post('findOneAndUpdate', handleE11000);
+userSchema.post('insertMany', handleE11000);
+
 
 userSchema.statics = {
   roles,

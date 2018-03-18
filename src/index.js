@@ -13,6 +13,7 @@ mongoose.connect();
 // listen
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
+    app.emit('apiStarted');
 });
 
 module.exports = app;
