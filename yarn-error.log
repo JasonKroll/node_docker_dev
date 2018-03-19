@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /opt/yarn-v1.5.1/bin/yarn.js test
+  /usr/local/bin/node /opt/yarn/bin/yarn.js test
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -3458,9 +3458,9 @@ Trace:
   Directory: /app
   Output:
   
-      at ProcessTermError.MessageError (/opt/yarn-v1.5.1/lib/cli.js:186:110)
-      at new ProcessTermError (/opt/yarn-v1.5.1/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/opt/yarn-v1.5.1/lib/cli.js:30281:17)
+      at ProcessTermError.MessageError (/opt/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/opt/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/opt/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)

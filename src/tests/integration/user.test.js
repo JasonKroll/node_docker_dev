@@ -9,7 +9,7 @@ const User = require('./../../models/user.model');
 const JWT_EXPIRATION = require('./../../config/vars').jwtExpirationMinutes;
 const messages = require('./../../utils/messages');
 const KeyService = require('./../../services/KeyService');
-
+const seedUsers = require('./../fixtures/dbUsers');
 
 describe('Users API', () => {
   let adminAccessToken;
@@ -21,20 +21,13 @@ describe('Users API', () => {
   const password = '123456';
 
   beforeEach(async () => {
-    const passwordHashed = await bcrypt.hash(password, 1)
-    dbUsers = {
-      lukeSkywalker: {
-        email: 'luke@rebellion.com',
-        password: passwordHashed,
-        name: 'Luke Skywalker',
-        role: 'admin',
-      },
-      hanSolo: {
-        email: 'han@rebellion.com',
-        password: passwordHashed,
-        name: 'Han Solo',
-      },
-    };
+
+    dbUsers = await seedUsers();
+    const deviceId = '123456'
+    const dbLuke = await User.findOne({email: dbUsers.lukeSkywalker.email})
+    lukeSkywalkerToken = await KeyService.set(dbLuke, deviceId);
+    dbUsers.lukeSkywalker.password = password;
+    dbUsers.hanSolo.password = password;
 
     user = {
       email: 'storm.trooper@evilempire.com',
@@ -49,13 +42,6 @@ describe('Users API', () => {
       role: 'admin',
     };
 
-    await User.remove({});
-    await User.insertMany([dbUsers.lukeSkywalker, dbUsers.hanSolo]);
-    const deviceId = '123456'
-    const dbLuke = await User.findOne({email: dbUsers.lukeSkywalker.email})
-    lukeSkywalkerToken = await KeyService.set(dbLuke, deviceId);
-    dbUsers.lukeSkywalker.password = password;
-    dbUsers.hanSolo.password = password;
   });
 
 
