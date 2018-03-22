@@ -38,6 +38,18 @@ describe('Sessions API', () => {
         .then((res) => {
           expect(res.body).to.have.property('accessToken');
         })
-    })    
+    })
+
+    it('should not return a token for a invalid email', () => {
+      return request(app)
+        .post('/v1/sessions')
+        .send({email: 'jarjar.binks@nabooswamp.org', password: 'bombast', deviceId: '123456'})
+        .expect(httpStatus.NOT_FOUND)
+        .then((res) => {
+          expect(res.body.error).to.be.equal(messages.userDoesNotExist)
+        })
+    })
   })
+
+
 });

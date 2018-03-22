@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const { pick, isNull } = require('lodash');
 const User = require('./../models/user.model');
 const KeyService = require('./../services/KeyService');
+const messages = require('./../utils/messages');
 
 // Make sure these are wrapped with the asyncRoutes middleware in the router
 
@@ -44,7 +45,7 @@ exports.login = async (req, res, next) => {
   
   var passwordMatch = user.then(function(userResult) {
     if (isNull(userResult)) {
-      return res.status(404).send({error: 'User does not exist'});
+      return res.status(404).send({error: messages.userDoesNotExist});
     }
     return userResult.passwordMatches(params.password);
   });

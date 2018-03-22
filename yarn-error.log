@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /opt/yarn/bin/yarn.js test
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js run d:login
 
 PATH: 
-  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  C:\Program Files\git\bin;C:\Program Files\Docker\Docker\Resources\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\CMTrace\;C:\Program Files (x86)\Riverbed\Steelhead Mobile\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\jason.kroll\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\Microsoft VS Code\bin;C:\Users\jason.kroll\AppData\Roaming\npm;C:\Users\jason.kroll\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.5.1
@@ -11,7 +11,7 @@ Node version:
   8.10.0
 
 Platform: 
-  linux x64
+  win32 x64
 
 npm manifest: 
   {
@@ -3452,15 +3452,15 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c mocha src/tests/**/*.test.js --exit
-  Directory: /app
+  Exit code: 127
+  Command: C:\WINDOWS\system32\cmd.exe
+  Arguments: /d /s /c docker-compose run --rm --service-ports api /bin/sh
+  Directory: C:\Users\jason.kroll\Documents\projects\node_docker_dev
   Output:
   
-      at ProcessTermError.MessageError (/opt/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/opt/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/opt/yarn/lib/cli.js:30281:17)
+      at ProcessTermError.MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
+      at new ProcessTermError (C:\Program Files (x86)\Yarn\lib\cli.js:226:113)
+      at ChildProcess.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)

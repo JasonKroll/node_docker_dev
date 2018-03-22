@@ -2,6 +2,7 @@ class Messages {
   constructor () {
     this.userExists = 'User with this email address already exists.';
     this.invalidAccessToken = 'Invalid Access Token';
+    this.userDoesNotExist = 'User does not exist';
     // this.invalidData = 'User with this email address already exists.';
   }
 
