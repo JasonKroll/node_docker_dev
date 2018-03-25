@@ -9,8 +9,8 @@ const bodyParser = require('body-parser');
 // const cors = require('cors');
 
 const logs = config.logs;
-const error = require('./../middleware/error');
-const routesV1 = require('./../routes/v1');
+const error = require('./../api/middleware/error');
+const routesV1 = require('./../api/routes/v1');
 
 const app = express();
 

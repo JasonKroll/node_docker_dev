@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('./../config/vars');
+const config = require('./../../config/vars');
 const bcrypt = require('bcryptjs');
 const httpStatus = require('http-status');
 const roles = ['user', 'admin'];
@@ -61,14 +61,14 @@ userSchema.pre('save', async function save(next) {
 });
 
 userSchema.method({
-  transform() {
-    const transformed = {};
+  toJSON() {
+    const json = {};
     
     returnFields.forEach((field) => {
-      transformed[field] = this[field];
+      json[field] = this[field];
     });
 
-    return transformed;
+    return json;
   },
 
   async passwordMatches(password) {

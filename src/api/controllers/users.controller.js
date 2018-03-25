@@ -7,7 +7,7 @@ const User = require('../models/user.model');
 exports.get = async (req, res, next) => {
   const id = req.params.userId;
   const user = await User.findById(id);
-  res.json(user.transform())
+  res.json(user.toJSON())
 };
 
 exports.create = async (req, res, next) => {
@@ -15,7 +15,7 @@ exports.create = async (req, res, next) => {
     const user = new User(body);
     const savedUser = await user.save();
     res.status(httpStatus.CREATED);
-    res.json(savedUser.transform());
+    res.json(savedUser.toJSON());
 };
 
 exports.index = async (req, res, next) => {
@@ -26,5 +26,5 @@ exports.index = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     const id = req.params.userId;
     const deleted = await User.findOneAndRemove({_id: id});
-    res.json(deleted.transform())
+    res.json(deleted.toJSON())
 };

@@ -3,7 +3,7 @@
 const redis = require('redis');
 const Promise = require('bluebird');
 const uuidv4 = require('uuid/v4');
-const config = require('./../config/vars.js');
+const config = require('./../../config/vars.js');
 const JWT = require('./../utils/jwt');
 const EXPIRATION_TIME = config.jwtExpirationMinutes * 60 * 1000;
 const sessionKey = require('./../utils/sessionKey');

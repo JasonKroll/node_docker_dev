@@ -2,7 +2,7 @@ const jsrsasign = require('jsrsasign');
 const sessionKey = require('./sessionKey');
 const JWT_ENCODING_ALGORITHM = 'HS256';
 const JWT_SECRET_SEPARATOR = '_';
-const config = require('./../config/vars');
+const config = require('./../../config/vars');
 
 class JWT {
   constructor () {
