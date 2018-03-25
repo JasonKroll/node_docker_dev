@@ -51,5 +51,23 @@ describe('Sessions API', () => {
     })
   })
 
+  describe('DELETE /v1/sessions', () => {
+    it('should delete sessionKey for valid token', () => {
+      return request(app)
+        .delete('/v1/sessions')
+        .set('Authorization', `Bearer ${lukeSkywalkerToken}`)
+        .expect(httpStatus.NO_CONTENT)
+        .then((res) => {
+          expect(res.body).to.be.empty;
+          return request(app)
+            .get('/v1/sessions')
+            .set('Authorization', `Bearer ${lukeSkywalkerToken}`)
+            .expect(httpStatus.FORBIDDEN)
+            .then((res) => {
+              expect(res.body.error.message).to.be.equal(messages.invalidAccessToken);
+            })
+          })
+    })
+  })
 
 });

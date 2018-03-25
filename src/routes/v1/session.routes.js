@@ -6,10 +6,8 @@ const auth = require('./../../middleware/auth');
 const sessionKey = require('./../../middleware/sessionKey');
 
 router
-  .route('/:sessionKey')
-  .get(asyncRoute(controller.get))
-router
   .route('/')
+  .get(auth.isAuthenticated, sessionKey.attach, asyncRoute(controller.get))
   .post(asyncRoute(controller.login))
   .delete(auth.isAuthenticated, sessionKey.attach, asyncRoute(controller.delete))
   
