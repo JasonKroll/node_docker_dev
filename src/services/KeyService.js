@@ -10,42 +10,44 @@ const sessionKey = require('./../utils/sessionKey');
 
 Promise.promisifyAll(redis.RedisClient.prototype);
 
-function KeyService() {
-  this.client = redis.createClient(config.keyService.port,
-                                   config.keyService.host);
-  this.client.on('connect', function() {
-    console.log('Redis connected.');
-  });
-  console.log('Connecting to Redis...');
+class KeyService {
+  constructor () {
+    this.client = redis.createClient(config.keyService.port, config.keyService.host);
+    this.client.on('connect', function() {
+      console.log('Redis connected.');
+    });
+    console.log('Connecting to Redis...');
+  }
+  
+  // Retrieve a JWT user key
+  get (sessionKey) {
+    return this.client.getAsync(sessionKey);
+  };
+
+  // Generate and store a new JWT user key
+  set (user, deviceId) {
+    const userKey = uuidv4();
+    const issuedAt = new Date().getTime();
+    const expiresAt = issuedAt + (EXPIRATION_TIME);
+
+    const token = JWT.generate(user, deviceId, userKey, issuedAt, expiresAt);
+    const key = sessionKey(user._id, deviceId, issuedAt);
+    console.log('key', key)
+    const setKey = this.client.setAsync(key, userKey);
+    const setExpiration = setKey.then(this.client.expireAsync(key,
+                                    EXPIRATION_TIME));
+    const getToken = setExpiration.then(function() {
+      return token;
+    });
+
+    return getToken;
+  };
+
+  // Manually remove a JWT user key
+  delete (sessionKey) {
+    return this.client.delAsync(sessionKey);
+  };
+
 }
-
-// Retrieve a JWT user key
-KeyService.prototype.get = function(sessionKey) {
-  return this.client.getAsync(sessionKey);
-};
-
-// Generate and store a new JWT user key
-KeyService.prototype.set = function(user, deviceId) {
-  const userKey = uuidv4();
-  const issuedAt = new Date().getTime();
-  const expiresAt = issuedAt + (EXPIRATION_TIME);
-
-  const token = JWT.generate(user, deviceId, userKey, issuedAt, expiresAt);
-  const key = sessionKey(user._id, deviceId, issuedAt);
-  console.log('key', key)
-  const setKey = this.client.setAsync(key, userKey);
-  const setExpiration = setKey.then(this.client.expireAsync(key,
-                                  EXPIRATION_TIME));
-  const getToken = setExpiration.then(function() {
-    return token;
-  });
-
-  return getToken;
-};
-
-// Manually remove a JWT user key
-KeyService.prototype.delete = function(sessionKey) {
-  return this.client.delAsync(sessionKey);
-};
 
 module.exports = new KeyService();
