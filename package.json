@@ -17,7 +17,6 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
     "cors": "^2.8.4",
     "cross-env": "^5.1.4",
     "dotenv-safe": "^5.0.1",
@@ -31,11 +30,12 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.17.1",
     "redis": "^2.8.0",
-    "sinon": "^4.4.6",
-    "supertest": "^3.0.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "nyc": "^11.6.0"
+    "nyc": "^11.6.0",
+    "sinon": "^4.4.6",
+    "supertest": "^3.0.0",
+    "chai": "^4.1.2"
   }
 }
