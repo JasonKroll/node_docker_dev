@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const bcrypt = require('bcryptjs');
 const { some, omitBy, isNil } = require('lodash');
-const app = require('./../../../index');
+// const app = require('./../../../index');
 const User = require('./../../models/user.model');
 const JWT_EXPIRATION = require('./../../../config/vars').jwtExpirationMinutes;
 const messages = require('./../../utils/messages');
@@ -19,9 +19,8 @@ describe('Users API', () => {
   let admin;
 
   const password = '123456';
-
   beforeEach(async () => {
-
+    this.app = require('./../../../index');
     dbUsers = await seedUsers();
     const deviceId = '123456'
     const dbLuke = await User.findOne({email: dbUsers.lukeSkywalker.email})
@@ -44,10 +43,9 @@ describe('Users API', () => {
 
   });
 
-
   describe('POST /v1/users', () => {
     it('should get 200 for health_check', () => {
-      return request(app)
+      return request(this.app)
         .get('/v1/health_check')
         .then((res) => {
           expect(httpStatus.OK)
@@ -55,7 +53,7 @@ describe('Users API', () => {
     })
 
     it('should create a new user when request is ok', () => {
-      return request(app)
+      return request(this.app)
         .post('/v1/users')
         .send(admin)
         .expect(httpStatus.CREATED)
@@ -66,7 +64,7 @@ describe('Users API', () => {
     })
 
     it('should create a new user and set default role to "user"', () => {
-      return request(app)
+      return request(this.app)
         .post('/v1/users')
         .send(user)
         .expect(httpStatus.CREATED)
@@ -78,7 +76,7 @@ describe('Users API', () => {
     it('should report error when email already exists', () => {
       user.email = dbUsers.lukeSkywalker.email;
 
-      return request(app)
+      return request(this.app)
         .post('/v1/users')
         .send(user)
         .expect(httpStatus.CONFLICT)
@@ -91,7 +89,7 @@ describe('Users API', () => {
     it('should report error when email is not provided', () => {
       delete user.email;
 
-      return request(app)
+      return request(this.app)
         .post('/v1/users')
         .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(user)
@@ -105,7 +103,7 @@ describe('Users API', () => {
     it('should report error when password length is less than 6', () => {
       user.password = '12345';
 
-      return request(app)
+      return request(this.app)
         .post('/v1/users')
         .send(user)
         .expect(httpStatus.BAD_REQUEST)
@@ -116,7 +114,7 @@ describe('Users API', () => {
     });
 
     it('should return list of users for authorized user', () => {
-      return request(app)
+      return request(this.app)
         .get('/v1/users')
         .set('Authorization', `Bearer ${lukeSkywalkerToken}`)
         .expect(httpStatus.OK)
@@ -126,7 +124,7 @@ describe('Users API', () => {
     });
 
     it('should not return list of users for unauthorized user', () => {
-      return request(app)
+      return request(this.app)
         .get('/v1/users')
         .set('Authorization', `Bearer invalid token`)
         .expect(httpStatus.FORBIDDEN)

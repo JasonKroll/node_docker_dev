@@ -21,4 +21,11 @@ module.exports = {
     host: process.env.KEY_SERVICE_HOST
   },
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
+  auth: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      redirectURL: process.env.GOOGLE_REDIRECT_URL
+    }
+  }
 };

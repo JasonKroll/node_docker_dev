@@ -19,6 +19,7 @@ class JWT {
       alg: JWT_ENCODING_ALGORITHM, typ: 'JWT'
     };
     const payload = {
+      user: user,
       username: user.email,
       deviceId: deviceId,
       jti: sessionKey(user._id, deviceId, issuedAt),

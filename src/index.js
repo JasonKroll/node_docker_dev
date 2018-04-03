@@ -11,9 +11,10 @@ const mongoose = require('./config/mongoose');
 mongoose.connect();
 
 // listen
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
     app.emit('apiStarted');
 });
 
 module.exports = app;
+module.exports.server = server;

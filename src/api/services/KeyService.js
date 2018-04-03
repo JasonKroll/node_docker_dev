@@ -34,9 +34,10 @@ class KeyService {
     const key = sessionKey(user._id, deviceId, issuedAt);
     console.log('key', key)
     const setKey = this.client.setAsync(key, userKey);
-    const setExpiration = setKey.then(this.client.expireAsync(key,
-                                    EXPIRATION_TIME));
-    const getToken = setExpiration.then(function() {
+    const setExpiration = setKey.then(() => {
+      return this.client.expireAsync(key, EXPIRATION_TIME);
+    });
+    const getToken = setExpiration.then(() => {
       return token;
     });
 

@@ -6,6 +6,7 @@ exports.notFound = (req, res, next) => {
 
 exports.errorHandler = (err, req, res, next) => {
   res.status(err.status || 500);
+  console.log(err.message)
   res.json({
     error: {
       message: err.message

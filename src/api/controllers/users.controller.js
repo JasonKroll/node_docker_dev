@@ -26,5 +26,6 @@ exports.index = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     const id = req.params.userId;
     const deleted = await User.findOneAndRemove({_id: id});
-    res.json(deleted.toJSON())
+    res.status(httpStatus.OK);
+    res.json();
 };

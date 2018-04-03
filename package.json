@@ -8,7 +8,7 @@
     "d:login": "docker-compose run --rm --service-ports api /bin/sh",
     "d:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit",
     "start": "nodemon -L src src/index.js",
-    "test": "mocha src/api/tests/**/*.test.js --exit"
+    "test": "mocha src/api/tests/**/*.test.js --timeout 20000 --exit"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "cross-env": "^5.1.4",
     "dotenv-safe": "^5.0.1",
     "express": "^4.16.2",
+    "googleapis": "^27.0.0",
     "helmet": "^3.12.0",
     "http-status": "^1.0.1",
     "jsrsasign": "^8.0.6",
@@ -33,9 +34,9 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "nyc": "^11.6.0",
     "sinon": "^4.4.6",
-    "supertest": "^3.0.0",
-    "chai": "^4.1.2"
+    "supertest": "^3.0.0"
   }
 }

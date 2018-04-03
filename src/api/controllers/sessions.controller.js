@@ -34,9 +34,11 @@ exports.delete = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  var params = pick(req.body, 'email', 'password', 'deviceId');
+  var params = pick(req.body, 'email', 'password');
+  const deviceId = req.get('x-device-id');
+  console.log('deviceId', deviceId);
   console.log(params);
-  if (!params.email || !params.password || !params.deviceId) {
+  if (!params.email || !params.password || deviceId) {
     return res.status(400).send({error: 'email, password, and deviceId ' +
                                 'are required parameters'});
   }
@@ -57,7 +59,7 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    return KeyService.set(userResult, params.deviceId)
+    return KeyService.set(userResult, deviceId)
         .then(function(token) {
           res.status(200).send({
             accessToken: token
@@ -66,5 +68,24 @@ exports.login = async (req, res, next) => {
   })
     .catch(function(error) {
       next(error);
-    });  
+    });
+};
+
+exports.oAuthLogin = async (req, res, next) => {
+  var params = pick(req.body, ['oAuthUser']);
+  const deviceId = req.get('x-device-id');
+  console.log('deviceId oAuthLogin', deviceId);
+  if (!params.oAuthUser && !deviceId) {
+    return res.status(400).send({error: messages.invalidAccessToken});
+  }
+  console.log(params.oAuthUser);
+  const user = await User.oAuthLogin(params.oAuthUser)
+  const token = await KeyService.set(user, deviceId)
+  res.status(200).send({accessToken: token})
+  // get auth code and service from url
+  // send code to the correct service
+  // if successful find or create User
+  // create a session
+  // return access token and user
+  // https://www.googleapis.com/auth/userinfo.profile
 }

@@ -1,14 +1,16 @@
+const { pick } = require('lodash');
 const httpStatus = require('http-status');
 const messages = require('./../utils/messages');
 
-var base64url = require('base64url');
-var JWT = require('./../utils/jwt');
-var KeyService = require('./../services/KeyService');
+const base64url = require('base64url');
+const JWT = require('./../utils/jwt');
+const KeyService = require('./../services/KeyService');
+const authProvider = require('./../services/authProviders');
 
 function isAuthenticated(req, res, next) {
   // Guard clauses
-  var authorization = req.headers.authorization;
-
+  const authorization = req.headers.authorization;
+ 
   if (!authorization || !(authorization.search('Bearer ') === 0)) {
     const newErr = new Error('Missing Authorization Header');
     newErr.status = httpStatus.UNAUTHORIZED;
@@ -46,6 +48,37 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+// const oAuth = (provider) => async (req, res, next) => {
+//   try {
+//     const body = pick(req.body, ['code']);
+//     const deviceId = req.get('x-device-id');
+//     const token = await authProvider[provider].auth(body.code);
+//     const oAuthUser = await authProvider[provider].userProfile(token.access_token);
+//     req.body.oAuthUser = oAuthUser;
+//     req.body.deviceId = deviceId;
+//     next()
+//   } catch (error) {
+//     next(error)
+//   }
+// }
+
+const oAuth = async (req, res, next) => {
+  try {
+    console.log('BBBBBBBBBB');
+    const provider = req.url.split('/').reverse()[0];
+    const body = pick(req.body, ['code']);
+    const deviceId = req.get('x-device-id');
+    const token = await authProvider[provider].auth(body.code);
+    const oAuthUser = await authProvider[provider].userProfile(token.access_token);
+    req.body.oAuthUser = oAuthUser;
+    req.body.deviceId = deviceId;
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
-  isAuthenticated: isAuthenticated
+  isAuthenticated: isAuthenticated,
+  oAuth: oAuth
 };

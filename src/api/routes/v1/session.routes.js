@@ -10,5 +10,8 @@ router
   .get(auth.isAuthenticated, sessionKey.attach, asyncRoute(controller.get))
   .post(asyncRoute(controller.login))
   .delete(auth.isAuthenticated, sessionKey.attach, asyncRoute(controller.delete))
-  
+router
+  .route('/oauth/google')
+  .post(auth.oAuth, asyncRoute(controller.oAuthLogin))
+
 module.exports = router;

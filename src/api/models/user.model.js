@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uuid = require('uuid/v4');
 const config = require('./../../config/vars');
 const bcrypt = require('bcryptjs');
 const httpStatus = require('http-status');
@@ -105,7 +106,22 @@ userSchema.post('insertMany', handleE11000);
 
 userSchema.statics = {
   roles,
-  safeParams
+  safeParams,
+
+  async oAuthLogin({service, id, email, name, picture}) {
+    const user = await this.findOne({ $or: [{ [`services.${service}`]: id }, { email }] });
+    if (user) {
+      user.services[service] = id;
+      if (!user.name) user.name = name;
+      if (!user.picture) user.picture = picture;
+      return user.save();
+    }
+    const password = uuid();
+    const newUser = {
+      services: { [service]: id }, email, password, name, picture,
+    }
+    return this.create(newUser);
+  }
 }
 
 module.exports = mongoose.model('User', userSchema);
